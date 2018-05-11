@@ -22,26 +22,26 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class UI extends JFrame {
 
 	private JPanel contentPane;
-	protected JButton btnRetrocederPagina;
-	protected JButton btnAvanzarPagina;
-	protected JButton btnMarcarPagina;
-	protected JButton btnIrAPagina;
+	private JButton btnRetrocederPagina;
+	private JButton btnAvanzarPagina;
+	private JButton btnMarcarPagina;
+	private JButton btnIrAPagina;
+	protected ArrayList<JButton> botones;
 	private JComboBox<Colores> comboBoxColores;
-	private JComboBox comboBoxFuentes;
-	private JButton btnDisminuirTamaño;
-	private JButton btnAumentarTamaño;
-	private int tamañoTexto = Constantes.TAMAÑO_PREFEDINIDO_LETRA;
+	private JButton btnDisminuirTamanio;
+	private JButton btnAumentarTamanio;
+	private int tamanioTexto = Constantes.TAMANIO_PREFEDINIDO_LETRA;
 	private String fuenteTexto = Constantes.FUENTE_LETRA_PREFEFINIDA;
-	private Font fuente = new Font(fuenteTexto , Font.PLAIN, tamañoTexto);
-	private int height = Constantes.TAMAÑO_VENTANA_HEIGHT;
-	private int width = Constantes.TAMAÑO_VENTANA_WIDTH;
-	private JTextArea textArea;
+	private Font fuente = new Font(fuenteTexto, Font.PLAIN, tamanioTexto);
+	protected JTextArea textArea;
 
 	/**
 	 * Create the frame.
@@ -49,15 +49,15 @@ public class UI extends JFrame {
 	public UI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-		cambiarTamaño();
+		cambiarTamanio(500);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 50, 43, 108, 53, 0, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{67, 235, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWidths = new int[] {30, 70, 70, 70, 70, 70, 70, 70, 70, 30, 0};
+		gbl_contentPane.rowHeights = new int[]{6, 296, 0, 0, 0};
+		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -66,7 +66,7 @@ public class UI extends JFrame {
 		lblNewLabel.setForeground(Color.ORANGE);
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.fill = GridBagConstraints.VERTICAL;
-		gbc_lblNewLabel.gridwidth = 5;
+		gbc_lblNewLabel.gridwidth = 8;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel.gridx = 1;
 		gbc_lblNewLabel.gridy = 0;
@@ -77,7 +77,7 @@ public class UI extends JFrame {
 		textArea.setLineWrap(true);
 		textArea.setBackground(Color.LIGHT_GRAY);
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
-		gbc_textArea.gridwidth = 5;
+		gbc_textArea.gridwidth = 8;
 		gbc_textArea.insets = new Insets(0, 0, 5, 5);
 		gbc_textArea.fill = GridBagConstraints.BOTH;
 		gbc_textArea.gridx = 1;
@@ -85,37 +85,77 @@ public class UI extends JFrame {
 		contentPane.add(textArea, gbc_textArea);
 		
 		btnRetrocederPagina = new JButton("<");
+		btnRetrocederPagina.setName("retrocederPagina");
 		GridBagConstraints gbc_btnRetrocederPagina = new GridBagConstraints();
-		gbc_btnRetrocederPagina.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnRetrocederPagina.gridwidth = 2;
+		gbc_btnRetrocederPagina.fill = GridBagConstraints.BOTH;
 		gbc_btnRetrocederPagina.insets = new Insets(0, 0, 5, 5);
 		gbc_btnRetrocederPagina.gridx = 1;
 		gbc_btnRetrocederPagina.gridy = 2;
 		contentPane.add(btnRetrocederPagina, gbc_btnRetrocederPagina);
 		
+		btnDisminuirTamanio = new JButton("-");
+		btnDisminuirTamanio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (tamanioTexto>Constantes.TAMANIO_MINIMO_LETRA) {
+					cambiarTamanioLetra(-10);
+					btnAumentarTamanio.setEnabled(true);
+				}else{
+					btnDisminuirTamanio.setEnabled(false);
+				}
+
+			}
+		});
+		GridBagConstraints gbc_btnDisminuirTamanio = new GridBagConstraints();
+		gbc_btnDisminuirTamanio.gridwidth = 2;
+		gbc_btnDisminuirTamanio.fill = GridBagConstraints.BOTH;
+		gbc_btnDisminuirTamanio.insets = new Insets(0, 0, 5, 5);
+		gbc_btnDisminuirTamanio.gridx = 3;
+		gbc_btnDisminuirTamanio.gridy = 2;
+		contentPane.add(btnDisminuirTamanio, gbc_btnDisminuirTamanio);
+		botones = new ArrayList<JButton>();
+		botones.add(btnRetrocederPagina);
+		
+		btnAumentarTamanio = new JButton("+");
+		btnAumentarTamanio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (tamanioTexto<Constantes.TAMANIO_MAXIMO_LETRA) {
+					cambiarTamanioLetra(10);
+					btnDisminuirTamanio.setEnabled(true);
+				}else{
+					btnAumentarTamanio.setEnabled(false);
+				}
+			}
+		});
+		GridBagConstraints gbc_btnAumentarTamanio = new GridBagConstraints();
+		gbc_btnAumentarTamanio.gridwidth = 2;
+		gbc_btnAumentarTamanio.fill = GridBagConstraints.BOTH;
+		gbc_btnAumentarTamanio.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAumentarTamanio.gridx = 5;
+		gbc_btnAumentarTamanio.gridy = 2;
+		contentPane.add(btnAumentarTamanio, gbc_btnAumentarTamanio);
+		
 		btnAvanzarPagina = new JButton(">");
+		btnAvanzarPagina.setName("avanzarPagina");
 		GridBagConstraints gbc_btnAvanzarPagina = new GridBagConstraints();
-		gbc_btnAvanzarPagina.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnAvanzarPagina.gridwidth = 2;
+		gbc_btnAvanzarPagina.fill = GridBagConstraints.BOTH;
 		gbc_btnAvanzarPagina.insets = new Insets(0, 0, 5, 5);
-		gbc_btnAvanzarPagina.gridx = 2;
+		gbc_btnAvanzarPagina.gridx = 7;
 		gbc_btnAvanzarPagina.gridy = 2;
 		contentPane.add(btnAvanzarPagina, gbc_btnAvanzarPagina);
+		botones.add(btnAvanzarPagina);
 		
 		btnMarcarPagina = new JButton("Marcar");
+		btnMarcarPagina.setName("marcarPagina");
 		GridBagConstraints gbc_btnMarcarPagina = new GridBagConstraints();
-		gbc_btnMarcarPagina.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnMarcarPagina.insets = new Insets(0, 0, 5, 5);
-		gbc_btnMarcarPagina.gridx = 3;
-		gbc_btnMarcarPagina.gridy = 2;
+		gbc_btnMarcarPagina.gridwidth = 3;
+		gbc_btnMarcarPagina.fill = GridBagConstraints.BOTH;
+		gbc_btnMarcarPagina.insets = new Insets(0, 0, 0, 5);
+		gbc_btnMarcarPagina.gridx = 1;
+		gbc_btnMarcarPagina.gridy = 3;
 		contentPane.add(btnMarcarPagina, gbc_btnMarcarPagina);
-		
-		btnIrAPagina = new JButton("Ir a marca");
-		GridBagConstraints gbc_btnIrAPagina = new GridBagConstraints();
-		gbc_btnIrAPagina.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnIrAPagina.gridwidth = 2;
-		gbc_btnIrAPagina.insets = new Insets(0, 0, 5, 5);
-		gbc_btnIrAPagina.gridx = 4;
-		gbc_btnIrAPagina.gridy = 2;
-		contentPane.add(btnIrAPagina, gbc_btnIrAPagina);
+		botones.add(btnMarcarPagina);
 		
 		comboBoxColores = new JComboBox<Colores>();
 		comboBoxColores.addActionListener(new ActionListener() {
@@ -126,73 +166,35 @@ public class UI extends JFrame {
 			}
 		});
 		GridBagConstraints gbc_comboBoxColores = new GridBagConstraints();
+		gbc_comboBoxColores.gridwidth = 2;
 		gbc_comboBoxColores.insets = new Insets(0, 0, 0, 5);
-		gbc_comboBoxColores.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBoxColores.gridx = 1;
+		gbc_comboBoxColores.fill = GridBagConstraints.BOTH;
+		gbc_comboBoxColores.gridx = 4;
 		gbc_comboBoxColores.gridy = 3;
 		contentPane.add(comboBoxColores, gbc_comboBoxColores);
 		comboBoxColores.setModel(new DefaultComboBoxModel<Colores>(Colores.values()));
-	
-		comboBoxFuentes = new JComboBox<Object>();
-		comboBoxFuentes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Object item = comboBoxFuentes.getSelectedItem();
-			
-				fuente =new Font(fuenteTexto,Font.PLAIN,tamañoTexto);
-				textArea.setFont(fuente);
-			}
-		});
-		GridBagConstraints gbc_comboBoxFuentes = new GridBagConstraints();
-		gbc_comboBoxFuentes.gridwidth = 2;
-		gbc_comboBoxFuentes.insets = new Insets(0, 0, 0, 5);
-		gbc_comboBoxFuentes.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBoxFuentes.gridx = 2;
-		gbc_comboBoxFuentes.gridy = 3;
-		contentPane.add(comboBoxFuentes, gbc_comboBoxFuentes);
 		
-		btnDisminuirTamaño = new JButton("-");
-		btnDisminuirTamaño.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (tamañoTexto>Constantes.TAMAÑO_MINIMO_LETRA) {
-					cambiarTamañoLetra(-10);
-				}
-			}
-		});
-		GridBagConstraints gbc_btnDisminuirTamaño = new GridBagConstraints();
-		gbc_btnDisminuirTamaño.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnDisminuirTamaño.insets = new Insets(0, 0, 0, 5);
-		gbc_btnDisminuirTamaño.gridx = 4;
-		gbc_btnDisminuirTamaño.gridy = 3;
-		contentPane.add(btnDisminuirTamaño, gbc_btnDisminuirTamaño);
-		
-		btnAumentarTamaño = new JButton("+");
-		btnAumentarTamaño.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (tamañoTexto<Constantes.TAMAÑO_MAXIMO_LETRA) {
-					cambiarTamañoLetra(10);
-				}
-			
-			}
-		});
-		GridBagConstraints gbc_btnAumentarTamaño = new GridBagConstraints();
-		gbc_btnAumentarTamaño.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnAumentarTamaño.insets = new Insets(0, 0, 0, 5);
-		gbc_btnAumentarTamaño.gridx = 5;
-		gbc_btnAumentarTamaño.gridy = 3;
-		contentPane.add(btnAumentarTamaño, gbc_btnAumentarTamaño);
+		btnIrAPagina = new JButton("Ir a marca");
+		btnIrAPagina.setName("irAMarcada");
+		GridBagConstraints gbc_btnIrAPagina = new GridBagConstraints();
+		gbc_btnIrAPagina.gridwidth = 3;
+		gbc_btnIrAPagina.fill = GridBagConstraints.BOTH;
+		gbc_btnIrAPagina.insets = new Insets(0, 0, 0, 5);
+		gbc_btnIrAPagina.gridx = 6;
+		gbc_btnIrAPagina.gridy = 3;
+		contentPane.add(btnIrAPagina, gbc_btnIrAPagina);
+		botones.add(btnIrAPagina);
+		}
+
+	private void cambiarTamanio(int cambio) {
+		setBounds(100, 100, getWidth()+cambio, getHeight()+cambio);
 	}
 
-	private void cambiarTamaño() {
-		setBounds(100, 100,width,height);
-	}
-
-	private void cambiarTamañoLetra(int cambio) {
-		tamañoTexto+=cambio/10;
-		fuente=new Font(fuenteTexto, Font.PLAIN, tamañoTexto);
+	private void cambiarTamanioLetra(int cambio) {
+		tamanioTexto += cambio / 10;
+		fuente = new Font(fuenteTexto, Font.PLAIN, tamanioTexto);
 		textArea.setFont(fuente);
-		width+=cambio;
-		height+=cambio;
-		cambiarTamaño();
+		cambiarTamanio(cambio);
 	}
 
 

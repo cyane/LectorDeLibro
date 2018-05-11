@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import control.accion.ParaUI;
 import modelo.Legible;
 import modelo.Libro;
 
@@ -13,7 +14,8 @@ public class LegibleTest {
 	
 	@Before
 	public void setUp(){
-		inst= new Libro();
+		ParaUI para = new ParaUI();
+		inst= new Libro(para);
 	}
 	
 	@Test

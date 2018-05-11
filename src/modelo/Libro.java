@@ -2,6 +2,10 @@ package modelo;
 
 import java.util.ArrayList;
 
+import javax.print.attribute.standard.PDLOverrideSupported;
+
+import control.accion.ParaUI;
+
 public class Libro implements Legible {
 
 	private String lectura;
@@ -12,12 +16,15 @@ public class Libro implements Legible {
 
 	private ArrayList<Pagina> paginas;
 
-	public Libro() {
+	private ParaUI paraUI;
+
+	public Libro(ParaUI paraUI) {
 		super();
-		this.lectura = "ruta";
+		this.lectura = "libroEjemplo.txt";
 		this.actual = 0;
 		this.marcar = 0;
 		this.paginas = new ArrayList<>();
+		this.paraUI = paraUI;
 	}
 
 	@Override
@@ -27,6 +34,7 @@ public class Libro implements Legible {
 				this.actual++;
 			}
 		}
+		
 
 	}
 
@@ -38,12 +46,7 @@ public class Libro implements Legible {
 	}
 
 	private boolean comprobarUltimaPagina() {
-		if (this.actual == 5) {// TODO mientras el size sea 0, si no el test da
-								// rojo -> this.paginas.size()
-			return true;
-		} else {
-			return false;
-		}
+		return false;
 	}
 
 	@Override
@@ -85,8 +88,10 @@ public class Libro implements Legible {
 	}
 
 	private boolean cargarPagina(int pagina) {
-		//TODO
-		return true;
+		if (paraUI.pintarTxt(pagina)) {
+			return true;
+		}
+		return false;
 	};
 
 	public String getLectura() {
