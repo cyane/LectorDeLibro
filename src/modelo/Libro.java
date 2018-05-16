@@ -1,9 +1,5 @@
 package modelo;
 
-import java.util.ArrayList;
-
-import javax.print.attribute.standard.PDLOverrideSupported;
-
 import control.accion.ParaUI;
 
 public class Libro implements Legible {
@@ -14,16 +10,13 @@ public class Libro implements Legible {
 
 	private int marcar;
 
-	private ArrayList<Pagina> paginas;
-
 	private ParaUI paraUI;
 
-	public Libro(ParaUI paraUI) {
+	public Libro(ParaUI paraUI, String string) {
 		super();
-		this.lectura = "libroEjemplo.txt";
+		this.lectura = string;
 		this.actual = 0;
 		this.marcar = 0;
-		this.paginas = new ArrayList<>();
 		this.paraUI = paraUI;
 	}
 
@@ -34,7 +27,6 @@ public class Libro implements Legible {
 				this.actual++;
 			}
 		}
-		
 
 	}
 
@@ -104,10 +96,6 @@ public class Libro implements Legible {
 
 	public int getMarcar() {
 		return marcar;
-	}
-
-	public ArrayList<Pagina> getPaginas() {
-		return paginas;
 	}
 
 }

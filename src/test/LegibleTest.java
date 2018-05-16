@@ -15,7 +15,8 @@ public class LegibleTest {
 	@Before
 	public void setUp(){
 		ParaUI para = new ParaUI();
-		inst= new Libro(para);
+		inst= new Libro(para,"txt.txt");
+		para.preparar();
 	}
 	
 	@Test
@@ -29,8 +30,9 @@ public class LegibleTest {
 	public void testRetrocederPagina() {
 		inst.avanzarPagina();
 		int paginaActual=inst.getActual();
+		inst.avanzarPagina();
 		inst.retrocederPagina();
-		assertEquals(paginaActual-1, inst.getActual());
+		assertEquals(paginaActual, inst.getActual());
 	}
 
 	@Test
@@ -42,7 +44,14 @@ public class LegibleTest {
 
 	@Test
 	public void testIrAMarca() {
-		
+		inst.avanzarPagina();
+		inst.avanzarPagina();
+		inst.marcarPagina();
+		int marcada = inst.getActual();
+		inst.avanzarPagina();
+		inst.avanzarPagina();
+		inst.irAMarca();
+		assertEquals(marcada, inst.getActual());
 	}
 
 }

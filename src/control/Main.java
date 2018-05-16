@@ -3,7 +3,6 @@ package control;
 import java.awt.EventQueue;
 
 import control.accion.ParaUI;
-import vista.UI;
 
 public class Main {
 	/**
